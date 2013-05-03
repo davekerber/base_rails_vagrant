@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.network :private_network, ip: "85.85.85.1"
-  config.vm.synced_folder USER_CONFIG.data_dir, "/host_folder", :nfs => true
+  config.vm.synced_folder USER_CONFIG.data_dir, "/host_folder"
  
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 1080, host: 1080  
