@@ -48,10 +48,7 @@ Vagrant.configure("2") do |config|
 	                 }
   	 #puppet.options = "--verbose --debug" #uncomment this to debug puppet issues
   end
-
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "manifests"
-    puppet.manifest_file  = "rvm.pp"
-    puppet.module_path = 'modules'
-  end
+  
+  config.vm.provision :shell, :path => 'downgrade_ruby_gems_and_install_bunderl.sh'
+  config.vm.provision :shell, :path => 'gems/copy_gems.sh'
 end
