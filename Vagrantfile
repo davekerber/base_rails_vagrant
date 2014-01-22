@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--memory", "512", "--cpus", "2"]
   end
 
-  config.vm.network :private_network, ip: "85.85.85.1"
+  config.vm.network :private_network, ip: "85.85.85.2"
   config.vm.synced_folder USER_CONFIG.data_dir, "/host_folder"
  
   config.vm.network :forwarded_port, guest: 3000, host: 3000
