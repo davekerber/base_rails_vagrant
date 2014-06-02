@@ -25,16 +25,31 @@ end
 Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-
+  host = RbConfig::CONFIG['host_os']
+  
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "512", "--cpus", "2"]
+    # Give VM 1/4 system memory & access to all cpu cores on the host
+      if host =~ /darwin/
+        cpus = `sysctl -n hw.ncpu`.to_i
+        # sysctl returns Bytes and we need to convert to MB
+        mem = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+      elsif host =~ /linux/
+        cpus = `nproc`.to_i
+        # meminfo shows KB and we need to convert to MB
+        mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+      else # sorry Windows folks, I can't help you
+        cpus = 2
+        mem = 1024
+      end
+      
+    vb.customize ["modifyvm", :id, "--memory", mem, "--cpus", cpus]
   end
 
   config.vm.network :private_network, ip: "85.85.85.2"
   config.vm.synced_folder USER_CONFIG.data_dir, "/host_folder"
  
-  config.vm.network :forwarded_port, guest: 3000, host: 3000
-  config.vm.network :forwarded_port, guest: 1080, host: 1080  
+  config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
+  config.vm.network :forwarded_port, guest: 1080, host: 1080, auto_correct: true
  
   config.vm.provision :shell, :path => 'apt-get-update.sh'
   config.vm.provision :shell, :path => 'install_custom_setup.sh'
