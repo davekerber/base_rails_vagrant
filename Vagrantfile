@@ -48,8 +48,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: "85.85.85.2"
   config.vm.synced_folder USER_CONFIG.data_dir, "/host_folder"
  
-  config.vm.network :forwarded_port, guest: 3000, host: 3000
-  config.vm.network :forwarded_port, guest: 1080, host: 1080  
+  config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
+  config.vm.network :forwarded_port, guest: 1080, host: 1080, auto_correct: true  
  
   config.vm.provision :shell, :path => 'apt-get-update.sh'
   config.vm.provision :shell, :path => 'install_custom_setup.sh'
@@ -69,4 +69,6 @@ Vagrant.configure("2") do |config|
     puppet.manifest_file  = "rvm.pp"
     puppet.module_path = 'modules'
   end
+  
+  config.vm.provision :shell, :path => 'install_postgres_extentions.sh'
 end
