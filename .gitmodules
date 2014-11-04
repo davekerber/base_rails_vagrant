@@ -6,7 +6,7 @@
 	url = ssh://git@agapered.repositoryhosting.com/agapered/vagrant_puppet_git.git
 [submodule "modules/rvm"]
 	path = modules/rvm
-	url = git://github.com/davekerber/puppet-rvm.git
+	url = git://github.com/zmckenzie/puppet-rvm.git
 [submodule "modules/agapered_nodocs"]
 	path = modules/agapered_nodocs
 	url = ssh://git@agapered.repositoryhosting.com/agapered/vagrant_puppet_nodocs.git
