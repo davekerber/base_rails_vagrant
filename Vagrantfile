@@ -25,6 +25,9 @@ end
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
   host = RbConfig::CONFIG['host_os']
+
+  config.vm.define "base" do |foohost|
+  end
   
   config.vm.provider :virtualbox do |vb|
     # Give VM 1/4 system memory & access to all cpu cores on the host
