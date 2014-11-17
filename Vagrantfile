@@ -72,5 +72,4 @@ Vagrant.configure("2") do |config|
     puppet.module_path = 'modules'
   end
   
-  config.vm.provision :shell, :path => 'install_postgres_extentions.sh'
 end
