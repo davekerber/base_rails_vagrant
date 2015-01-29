@@ -19,7 +19,7 @@ if USER_CONFIG.ssh_private_key and USER_CONFIG.ssh_public_key and USER_CONFIG.da
 end
 
 if USER_CONFIG.startup_script
-  FileUtils.cp File.expand_path(USER_CONFIG.startup_script), "#{USER_CONFIG.data_dir}/custom_vagrant_setup.sh"
+  FileUtils.cp File.expand_path(USER_CONFIG.startup_script), "#{USER_CONFIG.data_dir}/z_custom_vagrant_setup.sh"
 end
 
 Vagrant.configure("2") do |config|
@@ -54,8 +54,10 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 1080, host: 1080, auto_correct: true
  
   config.vm.provision :shell, :path => 'apt-get-update.sh'
-  config.vm.provision :shell, :path => 'install_custom_setup.sh'
- 
+  if USER_CONFIG.startup_script
+    config.vm.provision :shell, :path => 'install_custom_setup.sh'
+  end
+  
   config.vm.provision :puppet do |puppet|
      puppet.manifests_path = "manifests"
      puppet.manifest_file  = "base.pp"
