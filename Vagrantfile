@@ -1,8 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-`git submodule init`
-`git submodule update`
+Dir.chdir(File.dirname(__FILE__)){
+  `git submodule init`
+  `git submodule update`
+}
 
 if File.file? (File.expand_path '~/vagrant_setup.rb')
   require '~/vagrant_setup.rb'
